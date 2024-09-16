@@ -5,8 +5,11 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const token = process.env["GITHUB_TOKEN"];
+
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  baseURL: "https://models.inference.ai.azure.com",
+  apiKey: token,
 });
 
 // Define the resume schema
@@ -37,7 +40,7 @@ const ResumeSchema = z.object({
 
 async function parseResume(resumeText) {
   const completion = await openai.beta.chat.completions.parse({
-    model: "gpt-4o-mini-2024-07-18",
+    model: "gpt-4o",
     messages: [
       {
         role: "system",
